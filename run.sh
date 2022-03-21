@@ -54,6 +54,9 @@ mv /{tmp,etc}/pacman.conf
 # Install OS
 pacstrap $MountPointRoot base ${Packages[@]}
 
+# Generate fstab
+genfstab -U ${MountPointRoot} >> ${MountPointRoot}/etc/fstab
+
 # Configure first boot parameters
 readonly SystemdFirstbootOverridePath=${MountPointRoot}/etc/systemd/system/systemd-firstboot.service.d/override.conf
 mkdir $(dirname $SystemdFirstbootOverridePath)
