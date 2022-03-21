@@ -47,6 +47,10 @@ Packages+=(  )
 
 # Sort quickest mirrors
 
+# Enable pacman parallel downloads
+sed -e '/ParallelDownloads/ s/^#//' /etc/pacman.conf > /tmp/pacman.conf
+mv /{tmp,etc}/pacman.conf
+
 # Install OS
 pacstrap $MountPointRoot base ${Packages[@]}
 
