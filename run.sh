@@ -10,7 +10,7 @@ readonly RequiredApplications=(
 for app in ${RequiredApplications[@]}; do
     command -v $app > /dev/null || MissingApplications+=( $app )
 done
-if ! declare -p MissingApplications &> /dev/null; then
+if declare -p MissingApplications &> /dev/null; then
     echo "The following applications need to be installed before using this script." >&2
     echo -e "\n\t${MissingApplications[@]}\n\n" >&2
     exit 1
