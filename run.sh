@@ -51,8 +51,8 @@ Packages+=(  )
 pacstrap $MountPointRoot base ${Packages[@]}
 
 # Configure first boot parameters
-readonly SystemdFirstbootOverridePath=/etc/systemd/system/systemd-firstboot.service.d/override.conf
-mkdir ${MountPointRoot}$(dirname $SystemdFirstbootOverridePath)
+readonly SystemdFirstbootOverridePath=${MountPointRoot}/etc/systemd/system/systemd-firstboot.service.d/override.conf
+mkdir $(dirname $SystemdFirstbootOverridePath)
 cat << EOF > $SystemdFirstbootOverridePath
 [Service]
 ExecStart=
