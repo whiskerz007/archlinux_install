@@ -21,7 +21,7 @@ fi
 # Check for internet connection
 echo -n "Checking for internet connection..."
 for i in {5..1}; do
-    NetworkStatus=$(networkctl status -n 0 | sed -n -e 's/^[ \t]*Online state: \(*\)/\1/p')
+    NetworkStatus=$(networkctl status -n 0 | sed -n -e 's/^[ \t]*Online state: \(.*\)/\1/p')
     [ 'online' == "$NetworkStatus" ] && break
     echo -n "$i..."
     sleep 1
