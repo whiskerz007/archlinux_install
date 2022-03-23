@@ -2,6 +2,7 @@
 set -euo pipefail
 
 err() { echo $@ >&2; }
+die() { err $@; exit 1; }
 
 # Check for required applications
 readonly RequiredApplications=(
@@ -15,8 +16,7 @@ for app in ${RequiredApplications[@]}; do
 done
 if declare -p MissingApplications &> /dev/null; then
     err "The following applications need to be installed before using this script."
-    err "\n\t${MissingApplications[@]}\n\n"
-    exit 1
+    die "\n\t${MissingApplications[@]}\n\n"
 fi
 
 # Offer configuring WiFi, if WiFi adapter is present
@@ -30,8 +30,7 @@ for i in {5..1}; do
     sleep 1
 done; echo
 if [ 'online' != "$NetworkStatus" ]; then
-    err "An internet connection was not detected."
-    exit 1
+    die "An internet connection was not detected."
 fi
 
 # Disk and partition
@@ -40,8 +39,7 @@ fi
 readonly MountPointRoot=/mnt
 readonly MountPointBoot=${MountPointRoot}/boot
 if ! mount | awk '{print $3}' | grep $MountPointRoot > /dev/null; then
-    err "Nothing is mounted to '$MountPointRoot'. Doing nothing."
-    exit 1
+    die "Nothing is mounted to '$MountPointRoot'. Doing nothing."
 fi
 
 # Select packages to install
