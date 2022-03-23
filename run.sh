@@ -3,6 +3,7 @@ set -euo pipefail
 
 # Check for required applications
 readonly RequiredApplications=(
+    genfstab
     networkctl
     pacstrap
     sed
