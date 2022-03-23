@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+err() { echo $@ >&2; }
+
 # Check for required applications
 readonly RequiredApplications=(
     genfstab
@@ -12,8 +14,8 @@ for app in ${RequiredApplications[@]}; do
     command -v $app > /dev/null || MissingApplications+=( $app )
 done
 if declare -p MissingApplications &> /dev/null; then
-    echo "The following applications need to be installed before using this script." >&2
-    echo -e "\n\t${MissingApplications[@]}\n\n" >&2
+    err "The following applications need to be installed before using this script."
+    err "\n\t${MissingApplications[@]}\n\n"
     exit 1
 fi
 
@@ -28,7 +30,7 @@ for i in {5..1}; do
     sleep 1
 done; echo
 if [ 'online' != "$NetworkStatus" ]; then
-    echo "An internet connection was not detected." >&2
+    err "An internet connection was not detected."
     exit 1
 fi
 
@@ -38,7 +40,7 @@ fi
 readonly MountPointRoot=/mnt
 readonly MountPointBoot=${MountPointRoot}/boot
 if ! mount | awk '{print $3}' | grep $MountPointRoot > /dev/null; then
-    echo "Nothing is mounted to '$MountPointRoot'. Doing nothing." >&2
+    err "Nothing is mounted to '$MountPointRoot'. Doing nothing."
     exit 1
 fi
 
